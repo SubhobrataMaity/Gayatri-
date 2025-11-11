@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  // Disable ESLint during build to prevent blocking
+  // Disable ESLint during build to prevent deprecated options error
   eslint: {
     ignoreDuringBuilds: true,
   },
