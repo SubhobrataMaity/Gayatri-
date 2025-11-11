@@ -1,8 +1,10 @@
 import { NextResponse } from 'next/server';
 import { getProjectData } from '@/lib/projectUtils';
 
-// Mark this route as dynamic since it depends on the slug parameter
-export const dynamic = 'force-dynamic';
+// Use Node.js runtime to access file system
+export const runtime = 'nodejs';
+// Cache the response for better performance
+export const revalidate = 3600; // Revalidate every hour
 
 /**
  * API Route: GET /api/projects/[slug]

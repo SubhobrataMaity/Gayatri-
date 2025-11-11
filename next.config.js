@@ -21,6 +21,14 @@ const nextConfig = {
       },
     ],
   },
+  // Include public/projects directory in serverless function bundle
+  // This allows the API routes to read the file system structure
+  experimental: {
+    outputFileTracingIncludes: {
+      '/api/projects': ['./public/projects/**/*'],
+      '/api/projects/[slug]': ['./public/projects/**/*'],
+    },
+  },
 }
 
 module.exports = nextConfig
