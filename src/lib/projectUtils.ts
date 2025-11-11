@@ -105,10 +105,15 @@ function getVimeoEmbedUrl(url: string): string | null {
 }
 
 /**
+ * Type for assets with temporary position property
+ */
+type AssetWithPosition = ProjectAsset & { _position?: number };
+
+/**
  * Read video configuration from videos.json file in project folder
  * Format: { "videos": [{ "url": "...", "position": 5, "caption": "..." }] }
  */
-function getVideoConfigs(projectSlug: string): ProjectAsset[] {
+function getVideoConfigs(projectSlug: string): AssetWithPosition[] {
   const configPath = path.join(process.cwd(), 'public', 'projects', projectSlug, 'videos.json');
   
   if (!fs.existsSync(configPath)) {
@@ -174,7 +179,7 @@ export function getProjectAssets(projectSlug: string): ProjectAsset[] {
   const imageExtensions = ['.png', '.jpg', '.jpeg', '.webp', '.svg', '.gif'];
   const videoExtensions = ['.mp4', '.webm', '.mov'];
   
-  const fileAssets: ProjectAsset[] = files
+  const fileAssets: AssetWithPosition[] = files
     .filter(file => {
       const ext = path.extname(file).toLowerCase();
       return [...imageExtensions, ...videoExtensions].includes(ext);
@@ -197,17 +202,20 @@ export function getProjectAssets(projectSlug: string): ProjectAsset[] {
   const videoConfigs = getVideoConfigs(projectSlug);
   
   // Combine and sort by position
-  const allAssets = [...fileAssets, ...videoConfigs];
+  const allAssets: AssetWithPosition[] = [...fileAssets, ...videoConfigs];
   
   // Sort by position (if specified) or maintain file order
   allAssets.sort((a, b) => {
-    const posA = (a as any)._position ?? 999;
-    const posB = (b as any)._position ?? 999;
+    const posA = a._position ?? 999;
+    const posB = b._position ?? 999;
     return posA - posB;
   });
   
-  // Remove temporary position property
-  return allAssets.map(({ _position, ...asset }) => asset);
+  // Remove temporary position property and return clean assets
+  return allAssets.map((asset) => {
+    const { _position, ...cleanAsset } = asset;
+    return cleanAsset;
+  });
 }
 
 /**
@@ -218,9 +226,11 @@ export function getProjectThumbnail(projectSlug: string): string {
   
   // Try to find cover.png or 1.png first
   const coverAsset = assets.find(asset => 
-    asset.filename.toLowerCase() === 'cover.png' || 
-    asset.filename.toLowerCase() === '1.png' ||
-    asset.filename.toLowerCase() === 'thumbnail.png'
+    asset.filename && (
+      asset.filename.toLowerCase() === 'cover.png' || 
+      asset.filename.toLowerCase() === '1.png' ||
+      asset.filename.toLowerCase() === 'thumbnail.png'
+    )
   );
   
   if (coverAsset) {
