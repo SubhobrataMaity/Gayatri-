@@ -30,7 +30,7 @@ interface ProjectData {
   title: string;
   description?: string;
   thumbnail: string;
-  assets: { type: 'image' | 'video'; src: string; caption?: string }[];
+  assets: { type: 'image' | 'video' | 'youtube' | 'vimeo' | 'external'; src: string; caption?: string }[];
 }
 
 export default function ProjectPage() {

@@ -11,12 +11,8 @@ const nextConfig = {
       },
     ],
   },
-  // Exclude large project files from serverless function bundles
-  experimental: {
-    outputFileTracingExcludes: {
-      '/api/projects/**': ['./public/projects/**'],
-    },
-  },
+  // Ensure project files are included in serverless function bundles
+  // Note: Large files should be hosted externally (see README.md video hosting section)
 }
 
 module.exports = nextConfig

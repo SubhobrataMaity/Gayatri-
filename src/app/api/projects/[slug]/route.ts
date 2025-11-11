@@ -1,6 +1,9 @@
 import { NextResponse } from 'next/server';
 import { getProjectData } from '@/lib/projectUtils';
 
+// Mark this route as dynamic since it depends on the slug parameter
+export const dynamic = 'force-dynamic';
+
 /**
  * API Route: GET /api/projects/[slug]
  * 
@@ -8,10 +11,19 @@ import { getProjectData } from '@/lib/projectUtils';
  */
 export async function GET(
   request: Request,
-  { params }: { params: { slug: string } }
+  { params }: { params: Promise<{ slug: string }> }
 ) {
   try {
-    const projectData = getProjectData(params.slug);
+    const { slug } = await params;
+    
+    if (!slug) {
+      return NextResponse.json(
+        { error: 'Project slug is required' },
+        { status: 400 }
+      );
+    }
+    
+    const projectData = getProjectData(slug);
     
     if (!projectData) {
       return NextResponse.json(
@@ -24,7 +36,7 @@ export async function GET(
   } catch (error) {
     console.error('Error fetching project:', error);
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { error: 'Internal server error', details: error instanceof Error ? error.message : 'Unknown error' },
       { status: 500 }
     );
   }
