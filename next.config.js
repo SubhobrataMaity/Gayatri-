@@ -10,8 +10,10 @@ const nextConfig = {
     ignoreBuildErrors: false,
   },
   images: {
-    domains: ['images.unsplash.com', 'via.placeholder.com'],
-    unoptimized: false,
+    // Disable image optimization to avoid 401 errors on Vercel
+    // Local images in /public folder will be served directly
+    unoptimized: true,
+    // Keep remote patterns for external images if needed
     remotePatterns: [
       {
         protocol: 'https',
