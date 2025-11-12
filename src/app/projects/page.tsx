@@ -31,15 +31,21 @@ interface ProjectData {
 }
 
 export default function ProjectsPage() {
-  // For now, use empty array - will be populated via API or static props
   const [projects, setProjects] = React.useState<ProjectData[]>([]);
+  const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
     // Fetch projects from API route
     fetch('/api/projects')
       .then(res => res.json())
-      .then(data => setProjects(data))
-      .catch(err => console.error('Error loading projects:', err));
+      .then(data => {
+        setProjects(data);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error('Error loading projects:', err);
+        setLoading(false);
+      });
   }, []);
 
   return (
@@ -62,7 +68,25 @@ export default function ProjectsPage() {
         </motion.div>
 
         {/* Projects Grid */}
-        {projects.length > 0 ? (
+        {loading ? (
+          // Loading Skeleton
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {Array.from({ length: 6 }).map((_, index) => (
+              <div
+                key={index}
+                className="neumorphic-card dark:dark-card overflow-hidden h-full animate-pulse"
+              >
+                <div className="relative h-64 bg-gray-200 dark:bg-gray-700" />
+                <div className="p-6 space-y-4">
+                  <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded w-3/4" />
+                  <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-full" />
+                  <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-2/3" />
+                  <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-1/2 mt-4" />
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : projects.length > 0 ? (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -72,13 +96,20 @@ export default function ProjectsPage() {
             {projects.map((project, index) => (
               <motion.div
                 key={project.slug}
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
+                transition={{ duration: 0.4, delay: Math.min(index * 0.05, 0.3) }}
                 whileHover={{ y: -10 }}
                 className="group cursor-pointer"
               >
-                <Link href={`/projects/${project.slug}`}>
+                <Link 
+                  href={`/projects/${project.slug}`}
+                  prefetch={true}
+                  onMouseEnter={() => {
+                    // Prefetch project data on hover
+                    fetch(`/api/projects/${project.slug}`).catch(() => {});
+                  }}
+                >
                   <div className="neumorphic-card dark:dark-card overflow-hidden h-full transition-all duration-300
                                 hover:shadow-glass-light-hover dark:hover:shadow-glow-cyan
                                 border-2 border-transparent hover:border-light-accent dark:hover:border-dark-accent">
@@ -89,7 +120,9 @@ export default function ProjectsPage() {
                         alt={project.title}
                         fill
                         className="object-cover transition-transform duration-500 group-hover:scale-110"
-                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                        priority={index < 3}
+                        loading={index < 3 ? 'eager' : 'lazy'}
                       />
                       {/* Overlay on hover */}
                       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent 

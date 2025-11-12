@@ -44,33 +44,63 @@ export default function ProjectPage() {
   React.useEffect(() => {
     if (!project) return;
     
-    fetch(`/api/projects/${project}`)
+    setLoading(true);
+    setError(false);
+    
+    // Use AbortController for cleanup
+    const abortController = new AbortController();
+    
+    fetch(`/api/projects/${project}`, {
+      signal: abortController.signal,
+      cache: 'force-cache', // Cache the response
+    })
       .then(res => {
         if (!res.ok) throw new Error('Project not found');
         return res.json();
       })
       .then(data => {
-        setProjectData(data);
-        setLoading(false);
+        if (!abortController.signal.aborted) {
+          setProjectData(data);
+          setLoading(false);
+        }
       })
       .catch(err => {
-        console.error('Error loading project:', err);
-        setError(true);
-        setLoading(false);
+        if (err.name !== 'AbortError' && !abortController.signal.aborted) {
+          console.error('Error loading project:', err);
+          setError(true);
+          setLoading(false);
+        }
       });
+    
+    return () => {
+      abortController.abort();
+    };
   }, [project]);
   
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="text-center"
-        >
-          <div className="w-16 h-16 border-4 border-light-accent dark:border-dark-accent border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-light-textSecondary dark:text-dark-textSecondary">Loading project...</p>
-        </motion.div>
+      <div className="min-h-screen py-20 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-5xl mx-auto">
+          {/* Back Button Skeleton */}
+          <div className="mb-12 h-6 w-32 bg-gray-200 dark:bg-gray-700 rounded animate-pulse" />
+          
+          {/* Header Skeleton */}
+          <div className="mb-16 text-center space-y-4">
+            <div className="h-12 md:h-16 bg-gray-200 dark:bg-gray-700 rounded w-3/4 mx-auto animate-pulse" />
+            <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded w-1/2 mx-auto animate-pulse" />
+          </div>
+          
+          {/* Content Skeleton */}
+          <div className="space-y-4">
+            {Array.from({ length: 5 }).map((_, i) => (
+              <div
+                key={i}
+                className="w-full h-96 bg-gray-200 dark:bg-gray-700 rounded-lg animate-pulse"
+                style={{ animationDelay: `${i * 0.1}s` }}
+              />
+            ))}
+          </div>
+        </div>
       </div>
     );
   }

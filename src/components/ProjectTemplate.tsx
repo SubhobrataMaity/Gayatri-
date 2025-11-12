@@ -82,12 +82,12 @@ const ProjectTemplate: React.FC<ProjectTemplateProps> = ({ title, description, a
             return (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 50 }}
+                initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-50px', amount: 0.3 }}
+                viewport={{ once: true, margin: '-100px', amount: 0.2 }}
                 transition={{ 
-                  duration: 0.7, 
-                  delay: 0.1,
+                  duration: 0.5, 
+                  delay: Math.min(index * 0.03, 0.2),
                   ease: [0.25, 0.1, 0.25, 1]
                 }}
                 className="w-full"
@@ -102,9 +102,10 @@ const ProjectTemplate: React.FC<ProjectTemplateProps> = ({ title, description, a
                         alt={asset.caption || `Project asset ${index + 1}`}
                         className="w-full h-auto object-contain"
                         loading={index < 2 ? 'eager' : 'lazy'}
+                        decoding="async"
                       />
                     ) : (
-                      // Use Next.js Image for static images
+                      // Use Next.js Image for static images with optimized loading
                       <div className="relative w-full" style={{ aspectRatio: 'auto' }}>
                         <Image
                           src={asset.src}
@@ -112,8 +113,9 @@ const ProjectTemplate: React.FC<ProjectTemplateProps> = ({ title, description, a
                           width={1920}
                           height={1080}
                           className="w-full h-auto object-contain"
-                          quality={90}
                           priority={index < 2}
+                          loading={index < 2 ? 'eager' : 'lazy'}
+                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 80vw"
                         />
                       </div>
                     )}
@@ -124,12 +126,13 @@ const ProjectTemplate: React.FC<ProjectTemplateProps> = ({ title, description, a
                                 shadow-lg border border-gray-200 dark:border-gray-800">
                     <div className="relative" style={{ paddingBottom: '56.25%', height: 0, overflow: 'hidden' }}>
                       <iframe
-                        src={asset.src}
+                        src={`${asset.src}?rel=0&modestbranding=1`}
                         className="absolute top-0 left-0 w-full h-full"
                         frameBorder="0"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                         allowFullScreen
                         title={asset.caption || 'YouTube video player'}
+                        loading="lazy"
                       />
                     </div>
                   </div>
@@ -145,6 +148,7 @@ const ProjectTemplate: React.FC<ProjectTemplateProps> = ({ title, description, a
                         allow="autoplay; fullscreen; picture-in-picture"
                         allowFullScreen
                         title={asset.caption || 'Vimeo video player'}
+                        loading="lazy"
                       />
                     </div>
                   </div>
