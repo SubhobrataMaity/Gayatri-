@@ -66,8 +66,8 @@ const Footer = () => {
                   Gayatri Chatterjee
                 </h3>
                 <p className="text-light-textSecondary dark:text-dark-textSecondary text-base leading-relaxed max-w-md">
-                  UI/UX Designer passionate about creating intuitive, beautiful, and 
-                  accessible digital experiences that make a difference.
+                  Visual designer passionate about crafting visual experiences 
+                  that connect and communicate.
                 </p>
               </div>
               
