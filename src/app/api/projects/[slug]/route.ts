@@ -5,8 +5,9 @@ const PROJECTS = [
   {
     slug: 'Alochayya',
     title: 'Alochayya',
-    thumbnail: '/projects/Alochayya/1.png',
+    thumbnail: '/projects/Alochayya/0.jpeg',
     assets: [
+      { type: 'image' as const, src: '/projects/Alochayya/0.jpeg', filename: '0.jpeg' },
       ...Array.from({ length: 16 }, (_, i) => ({
         type: 'image' as const,
         src: `/projects/Alochayya/${i + 1}.png`,
@@ -64,7 +65,7 @@ const PROJECTS = [
   {
     slug: 'Rootprint',
     title: 'Rootprint',
-    thumbnail: '/projects/Rootprint/portfolio rootprint-01.png',
+    thumbnail: '/projects/Rootprint/portfolio rootprint.jpeg',
     assets: [
       { type: 'image' as const, src: '/projects/Rootprint/portfolio rootprint-01.png', filename: 'portfolio rootprint-01.png' },
       { type: 'image' as const, src: '/projects/Rootprint/portfolio rootprint-02.png', filename: 'portfolio rootprint-02.png' },

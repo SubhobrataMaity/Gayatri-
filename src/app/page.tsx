@@ -7,36 +7,37 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { AuroraBackgroundLight } from '@/components/ui/aurora-background-light';
 
+interface ProjectData {
+  slug: string;
+  title: string;
+  thumbnail: string;
+  assets: { type: string; src: string }[];
+}
+
 const HomePage = () => {
-  const featuredProjects = [
-    {
-      id: 1,
-      title: 'App Redesign',
-      description: 'A complete redesign of a mobile banking app focusing on user experience and accessibility.',
-      role: 'Lead Designer',
-      tools: ['Figma', 'Protopie', 'Adobe XD'],
-      image: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=800&h=600&fit=crop',
-      category: 'Mobile',
-    },
-    {
-      id: 2,
-      title: 'Dashboard Concept',
-      description: 'Modern analytics dashboard with data visualization and real-time insights.',
-      role: 'UI/UX Designer',
-      tools: ['Figma', 'Sketch', 'Principle'],
-      image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=600&fit=crop',
-      category: 'Web',
-    },
-    {
-      id: 3,
-      title: 'E-commerce UI Revamp',
-      description: 'Refreshed e-commerce platform with improved checkout flow and product discovery.',
-      role: 'Product Designer',
-      tools: ['Figma', 'Framer', 'After Effects'],
-      image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&fit=crop',
-      category: 'Web',
-    },
-  ];
+  const [featuredProjects, setFeaturedProjects] = React.useState<ProjectData[]>([]);
+  const [loading, setLoading] = React.useState(true);
+
+  // Featured project slugs to display
+  const featuredSlugs = ['So-FI', 'PLUGD', 'Rootprint'];
+
+  React.useEffect(() => {
+    // Fetch all projects from API
+    fetch('/api/projects')
+      .then(res => res.json())
+      .then((allProjects: ProjectData[]) => {
+        // Filter to get only featured projects
+        const featured = allProjects.filter(project => 
+          featuredSlugs.includes(project.slug)
+        );
+        setFeaturedProjects(featured);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error('Error loading featured projects:', err);
+        setLoading(false);
+      });
+  }, []);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -203,62 +204,71 @@ const HomePage = () => {
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {featuredProjects.map((project, index) => (
-              <motion.div
-                key={project.id}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                whileHover={{ y: -10 }}
-                className="group cursor-pointer"
-              >
-                <div className="neumorphic-card dark:dark-card overflow-hidden h-full transition-all duration-300">
-                  <div className="relative h-64 overflow-hidden">
-                    <Image
-                      src={project.image}
-                      alt={project.title}
-                      fill
-                      className="object-cover transition-transform duration-500 group-hover:scale-110"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                    <div className="absolute top-4 right-4">
-                      <span className="px-3 py-1 rounded-full text-xs font-medium
-                                     bg-white/90 dark:bg-dark-bg/90 text-light-text dark:text-dark-text">
-                        {project.category}
-                      </span>
-                    </div>
-                  </div>
-                  <div className="p-6">
-                    <h3 className="text-2xl font-bold mb-2 text-light-text dark:text-dark-text">
-                      {project.title}
-                    </h3>
-                    <p className="text-light-textSecondary dark:text-dark-textSecondary mb-4">
-                      {project.description}
-                    </p>
-                    <div className="mb-4">
-                      <p className="text-sm font-medium text-light-accent dark:text-dark-accent mb-2">
-                        {project.role}
-                      </p>
-                      <div className="flex flex-wrap gap-2">
-                        {project.tools.map((tool) => (
-                          <span
-                            key={tool}
-                            className="px-3 py-1 text-xs rounded-full
-                                     bg-light-accent/10 dark:bg-dark-accent/10
-                                     text-light-text dark:text-dark-text"
-                          >
-                            {tool}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
+          {loading ? (
+            // Loading Skeleton
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {Array.from({ length: 3 }).map((_, index) => (
+                <div
+                  key={index}
+                  className="neumorphic-card dark:dark-card overflow-hidden h-full animate-pulse"
+                >
+                  <div className="relative h-64 bg-gray-200 dark:bg-gray-700" />
+                  <div className="p-6 space-y-4">
+                    <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded w-3/4" />
+                    <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-full" />
+                    <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-2/3" />
+                    <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-1/2 mt-4" />
                   </div>
                 </div>
-              </motion.div>
-            ))}
-          </div>
+              ))}
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {featuredProjects.map((project, index) => (
+                <motion.div
+                  key={project.slug}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                  whileHover={{ y: -10 }}
+                  className="group cursor-pointer"
+                >
+                  <Link href={`/projects/${project.slug}`}>
+                    <div className="neumorphic-card dark:dark-card overflow-hidden h-full transition-all duration-300">
+                      <div className="relative h-64 overflow-hidden">
+                        <Image
+                          src={project.thumbnail}
+                          alt={project.title}
+                          fill
+                          className="object-cover transition-transform duration-500 group-hover:scale-110"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                        <div className="absolute top-4 right-4">
+                          <span className="px-3 py-1 rounded-full text-xs font-medium
+                                         bg-white/90 dark:bg-dark-bg/90 text-light-text dark:text-dark-text">
+                            {project.assets.length} assets
+                          </span>
+                        </div>
+                      </div>
+                      <div className="p-6">
+                        <h3 className="text-2xl font-bold mb-2 text-light-text dark:text-dark-text">
+                          {project.title}
+                        </h3>
+                        <p className="text-light-textSecondary dark:text-dark-textSecondary mb-4">
+                          A showcase of thoughtful design and creative problem-solving.
+                        </p>
+                        <div className="flex items-center gap-2 text-sm text-light-accent dark:text-dark-accent">
+                          <span>View Project</span>
+                          <ArrowRight size={16} />
+                        </div>
+                      </div>
+                    </div>
+                  </Link>
+                </motion.div>
+              ))}
+            </div>
+          )}
 
           <motion.div
             initial={{ opacity: 0 }}

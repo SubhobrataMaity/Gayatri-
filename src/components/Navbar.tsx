@@ -50,9 +50,13 @@ const Navbar = () => {
             <motion.div
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="text-2xl md:text-3xl font-bold gradient-text"
+              className="h-12 w-12 md:h-16 md:w-20 relative"
             >
-              GC
+              <img
+                src="/logoiterations_GC-03 (1).png"
+                alt="Logo"
+                className="h-full w-full object-contain"
+              />
             </motion.div>
           </Link>
 

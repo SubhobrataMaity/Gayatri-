@@ -181,7 +181,7 @@ const Footer = () => {
               <p className="flex items-center gap-2 text-sm text-light-textSecondary dark:text-dark-textSecondary">
                 Designed & Built with
                 <Heart size={14} className="text-red-500 fill-red-500 animate-pulse" />
-                in Kolkata
+                by Subho
               </p>
             </div>
           </motion.div>

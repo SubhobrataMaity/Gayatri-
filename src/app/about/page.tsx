@@ -20,7 +20,7 @@ const AboutPage = () => {
     { name: 'Figma', level: 95 },
     { name: 'Adobe XD', level: 90 },
     { name: 'Sketch', level: 85 },
-    { name: 'Protopie', level: 80 },
+    { name: 'Photoshop', level: 80 },
     { name: 'After Effects', level: 75 },
     { name: 'Framer', level: 85 },
     { name: 'User Research', level: 90 },
