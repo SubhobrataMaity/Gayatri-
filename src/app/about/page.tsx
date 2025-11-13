@@ -29,22 +29,16 @@ const AboutPage = () => {
 
   const experience = [
     {
-      title: 'Senior UI/UX Designer',
-      company: 'Tech Innovations Inc.',
-      period: '2022 - Present',
-      description: 'Leading design initiatives for enterprise SaaS products',
+      title: 'Branding & Operations Intern',
+      company: 'SOFI',
+      period: 'September 2025 - Present',
+      description: 'Rebranded SoFl, a community for first-generation Indians abroad, developing a cohesive visual identity and social media system. Managed content strategy and engagement, and optimized backend workflows using Zapier, HubSpot, and Excel.',
     },
     {
-      title: 'Product Designer',
-      company: 'Creative Studio',
-      period: '2020 - 2022',
-      description: 'Designed mobile and web applications for various clients',
-    },
-    {
-      title: 'Junior Designer',
-      company: 'Design Agency',
-      period: '2018 - 2020',
-      description: 'Worked on branding and UI design projects',
+      title: 'Design Intern',
+      company: 'PLUGD',
+      period: 'June - September 2025',
+      description: 'Led the full rebranding of an interior design studio, developing a cohesive visual identity, logo system, color palette, and brand guidelines. Collaborated with the UI/UX team on digital design direction and produced content to strengthen the brand\'s online presence.',
     },
   ];
 
@@ -181,7 +175,7 @@ const AboutPage = () => {
           <h2 className="text-4xl font-bold mb-12 text-center">
             Work <span className="gradient-text">Experience</span>
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
             {experience.map((exp, index) => (
               <motion.div
                 key={index}
@@ -190,22 +184,26 @@ const AboutPage = () => {
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
                 whileHover={{ y: -5 }}
-                className="neumorphic-card dark:dark-card p-6"
+                className="neumorphic-card dark:dark-card p-8 flex flex-col h-full"
               >
-                <div className="mb-4">
-                  <h3 className="text-xl font-bold text-light-text dark:text-dark-text mb-1">
-                    {exp.title}
-                  </h3>
-                  <p className="text-light-accent dark:text-dark-accent font-medium">
-                    {exp.company}
-                  </p>
-                  <p className="text-sm text-light-textSecondary dark:text-dark-textSecondary mt-1">
-                    {exp.period}
+                <div className="flex-1">
+                  <div className="flex justify-between items-start mb-4">
+                    <div>
+                      <h3 className="text-2xl font-bold text-light-text dark:text-dark-text mb-1">
+                        {exp.title}
+                      </h3>
+                      <p className="text-light-accent dark:text-dark-accent text-lg font-medium">
+                        {exp.company}
+                      </p>
+                    </div>
+                    <span className="inline-block px-3 py-1 text-sm rounded-full bg-light-accent/10 dark:bg-dark-accent/20 text-light-accent dark:text-dark-accent">
+                      {exp.period}
+                    </span>
+                  </div>
+                  <p className="text-light-textSecondary dark:text-dark-textSecondary leading-relaxed">
+                    {exp.description}
                   </p>
                 </div>
-                <p className="text-light-textSecondary dark:text-dark-textSecondary">
-                  {exp.description}
-                </p>
               </motion.div>
             ))}
           </div>
