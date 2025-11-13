@@ -256,7 +256,13 @@ const HomePage = () => {
                           {project.title}
                         </h3>
                         <p className="text-light-textSecondary dark:text-dark-textSecondary mb-4">
-                          A showcase of thoughtful design and creative problem-solving.
+                          {project.slug === 'So-FI' 
+                            ? 'A modern, confident identity designed with precision and purpose.'
+                            : project.slug === 'PLUGD'
+                            ? 'A bold wordmark identity that blends sharp angles with soft, crafted curves, inspired by the balance and structure of modern architecture.'
+                            : project.slug === 'Rootprint'
+                            ? 'A clean, intuitive platform that explains carbon impact and guides users to offset it.'
+                            : 'A showcase of thoughtful design and creative problem-solving.'}
                         </p>
                         <div className="flex items-center gap-2 text-sm text-light-accent dark:text-dark-accent">
                           <span>View Project</span>
