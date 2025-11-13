@@ -122,7 +122,7 @@ const HomePage = () => {
             className="text-2xl sm:text-3xl md:text-4xl font-semibold mb-8 
                      text-light-textSecondary dark:text-dark-textSecondary"
           >
-            UI/UX Designer & Problem Solver
+            Visual Designer & Problem Solver
           </motion.h2>
 
           <motion.p
