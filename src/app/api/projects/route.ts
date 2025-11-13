@@ -35,9 +35,10 @@ const PROJECTS = [
   {
     slug: 'PLUGD',
     title: 'PLUGD',
-    thumbnail: '/projects/PLUGD/1.png',
+    thumbnail: '/projects/PLUGD/1.jpeg',
     assets: [
-      ...Array.from({ length: 9 }, (_, i) => ({ type: 'image' as const, src: `/projects/PLUGD/${i + 1}.png`, filename: `${i + 1}.png` })),
+      { type: 'image' as const, src: '/projects/PLUGD/1.jpeg', filename: '1.jpeg' },
+      ...Array.from({ length: 8 }, (_, i) => ({ type: 'image' as const, src: `/projects/PLUGD/${i + 2}.png`, filename: `${i + 2}.png` })),
       { type: 'image' as const, src: '/projects/PLUGD/10.gif', filename: '10.gif' },
       { type: 'image' as const, src: '/projects/PLUGD/11.png', filename: '11.png' },
       { type: 'image' as const, src: '/projects/PLUGD/12.gif', filename: '12.gif' },

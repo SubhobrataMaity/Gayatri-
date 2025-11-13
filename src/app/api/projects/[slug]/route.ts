@@ -133,7 +133,7 @@ const PROJECTS = [
     title: 'Voovue',
     thumbnail: '/projects/Voovue/Eyewear branding-01.jpeg',
     assets: [
-      { type: 'image' as const, src: '/projects/Voovue/Eyewear branding-01.png', filename: 'Eyewear branding-01.png' },
+      { type: 'image' as const, src: '/projects/Voovue/Eyewear branding-01.jpeg', filename: 'Eyewear branding-01.jpeg' },
       { type: 'image' as const, src: '/projects/Voovue/Eyewear branding-02.png', filename: 'Eyewear branding-02.png' },
       { type: 'image' as const, src: '/projects/Voovue/Eyewear branding-03.png', filename: 'Eyewear branding-03.png' },
       { type: 'image' as const, src: '/projects/Voovue/Eyewear branding-04.png', filename: 'Eyewear branding-04.png' },
