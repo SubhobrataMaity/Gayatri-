@@ -105,14 +105,14 @@ const AboutPage = () => {
                   Hi, I'm Gayatri Chatterjee
                 </h2>
                 <p className="text-lg text-light-textSecondary dark:text-dark-textSecondary mb-4 leading-relaxed">
-                  A passionate UI/UX designer creating human-centered digital experiences. 
-                  With over 6 years of experience in the design industry, I specialize in 
-                  crafting intuitive interfaces that solve real problems and delight users.
+                  I’m a communication designer specializing in brand identity and UI/UX design. I enjoy creating thoughtful visual systems and digital experiences
+                  that are both functional and engaging.Through my internships and projects, I’ve learned to see design as the bridge between creativity and clarity.
+                  Crafting brands that communicate with purpose and interfaces that feel effortless to use.
                 </p>
                 <p className="text-lg text-light-textSecondary dark:text-dark-textSecondary mb-6 leading-relaxed">
-                  I believe great design is invisible – it just works. My approach combines 
-                  user research, data-driven insights, and creative problem-solving to deliver 
-                  exceptional digital products.
+                  I believe great design is more than how it looks; it’s how it works, feels,
+                  and communicates. As a keen learner, I’m always exploring new tools, ideas, 
+                  and perspectives to grow as a designer and craft meaningful, user-centered work.
                 </p>
                 <motion.a
                   href="/resume.pdf"

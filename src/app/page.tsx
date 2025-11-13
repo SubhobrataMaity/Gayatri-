@@ -129,8 +129,8 @@ const HomePage = () => {
             className="text-lg sm:text-xl text-light-textSecondary dark:text-dark-textSecondary 
                      max-w-2xl mx-auto mb-12 leading-relaxed"
           >
-            I craft beautiful, intuitive digital experiences that solve real problems 
-            and delight users. Let's create something amazing together.
+            Designer, observer, storyteller. I craft thoughtful brand  
+            identities and intuitive interfaces that balance emotion and clarity.
           </motion.p>
 
           <motion.div
