@@ -22,7 +22,7 @@ const PROJECTS = [
   {
     slug: 'Ektara',
     title: 'Ektara',
-    thumbnail: '/projects/Ektara/Presentation.png',
+    thumbnail: '/projects/Ektara/Presentation.jpeg',
     assets: [
       { type: 'image' as const, src: '/projects/Ektara/Presentation.png', filename: 'Presentation.png' },
       ...Array.from({ length: 27 }, (_, i) => ({
